@@ -10,7 +10,7 @@
       </template>
 
       <el-row :gutter="16" v-if="mappool.length">
-        <el-col :xs="12" :sm="8" :md="6" v-for="map in mappool" :key="map.id">
+        <el-col :xs="24" :sm="8" :md="6" v-for="map in mappool" :key="map.id">
           <el-card 
             class="map-card" 
             :body-style="{ padding: '0' }" 
@@ -232,9 +232,7 @@ onMounted(() => {
   margin-bottom: 12px;
 }
 
-.mobile-view .map-cover {
-  height: 60px;
-}
+
 
 .mobile-view .map-info {
   padding: 8px;

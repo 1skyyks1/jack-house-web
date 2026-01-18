@@ -17,52 +17,56 @@
 
     <!-- 导航标签 -->
     <div class="nav-container">
-      <el-menu mode="horizontal" :default-active="activeTab" router :ellipsis="false">
-        <el-menu-item :index="`/t/${props.tid}`">
-          <el-icon><House /></el-icon>
-          <span class="menu-text" v-show="!isMobile || activeTab === `/t/${props.tid}`">概览</span>
-        </el-menu-item>
-        <el-menu-item :index="`/t/${props.tid}/register`">
-          <el-icon><Edit /></el-icon>
-          <span class="menu-text" v-show="!isMobile || activeTab === `/t/${props.tid}/register`">报名</span>
-        </el-menu-item>
-        <el-menu-item :index="`/t/${props.tid}/teams`">
-          <el-icon><User /></el-icon>
-          <span class="menu-text" v-show="!isMobile || activeTab === `/t/${props.tid}/teams`">队伍</span>
-        </el-menu-item>
-        <el-menu-item :index="`/t/${props.tid}/qualifier`">
-          <el-icon><List /></el-icon>
-          <span class="menu-text" v-show="!isMobile || activeTab === `/t/${props.tid}/qualifier`">资格赛</span>
-        </el-menu-item>
-        <el-menu-item :index="`/t/${props.tid}/bracket`">
-          <el-icon><DataLine /></el-icon>
-          <span class="menu-text" v-show="!isMobile || activeTab === `/t/${props.tid}/bracket`">对阵表</span>
-        </el-menu-item>
-        <el-menu-item :index="`/t/${props.tid}/ranking`">
-          <el-icon><Trophy /></el-icon>
-          <span class="menu-text" v-show="!isMobile || activeTab === `/t/${props.tid}/ranking`">排名</span>
-        </el-menu-item>
-        <el-menu-item :index="`/t/${props.tid}/rules`">
-          <el-icon><Document /></el-icon>
-          <span class="menu-text" v-show="!isMobile || activeTab === `/t/${props.tid}/rules`">规则</span>
-        </el-menu-item>
-        <!-- 分隔 -->
-        <div class="flex-grow"></div>
-        <!-- 语言切换 (仅桌面端显示) -->
-        <div class="lang-option" v-show="!isMobile">
-          <lang></lang>
+      <div class="nav-content">
+        <!-- 独立的返回按钮 -->
+        <div class="nav-back-btn" @click="router.push('/t')">
+          <el-icon><Back /></el-icon>
         </div>
-        <!-- 黑夜模式切换 (仅桌面端显示) -->
-        <div class="dark-mode-toggle" @click="toggleDarkMode" v-show="!isMobile">
-          <svg v-if="!isDark" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="5" />
-            <path d="M12 1v2M12 21v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1 12h2M21 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4" />
-          </svg>
-          <svg v-else xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-          </svg>
-        </div>
-      </el-menu>
+
+        <el-menu mode="horizontal" :default-active="activeTab" router :ellipsis="false" class="nav-menu">
+          <el-menu-item :index="`/t/${props.tid}`">
+            <el-icon><House /></el-icon>
+            <span class="menu-text" v-show="!isMobile || activeTab === `/t/${props.tid}`">详情</span>
+          </el-menu-item>
+          <el-menu-item :index="`/t/${props.tid}/register`" v-if="tournament?.status === 1">
+            <el-icon><Edit /></el-icon>
+            <span class="menu-text" v-show="!isMobile || activeTab === `/t/${props.tid}/register`">报名</span>
+          </el-menu-item>
+          <el-menu-item :index="`/t/${props.tid}/teams`">
+            <el-icon><User /></el-icon>
+            <span class="menu-text" v-show="!isMobile || activeTab === `/t/${props.tid}/teams`">队伍</span>
+          </el-menu-item>
+          <el-menu-item :index="`/t/${props.tid}/qualifier`">
+            <el-icon><List /></el-icon>
+            <span class="menu-text" v-show="!isMobile || activeTab === `/t/${props.tid}/qualifier`">资格赛</span>
+          </el-menu-item>
+          <el-menu-item :index="`/t/${props.tid}/bracket`">
+            <el-icon><DataLine /></el-icon>
+            <span class="menu-text" v-show="!isMobile || activeTab === `/t/${props.tid}/bracket`">对阵表</span>
+          </el-menu-item>
+          <el-menu-item :index="`/t/${props.tid}/ranking`">
+            <el-icon><Trophy /></el-icon>
+            <span class="menu-text" v-show="!isMobile || activeTab === `/t/${props.tid}/ranking`">排名</span>
+          </el-menu-item>
+
+          <!-- 分隔 -->
+          <div class="flex-grow"></div>
+          <!-- 语言切换 (仅桌面端显示) -->
+          <div class="lang-option" v-show="!isMobile">
+            <lang></lang>
+          </div>
+          <!-- 黑夜模式切换 (仅桌面端显示) -->
+          <div class="dark-mode-toggle" @click="toggleDarkMode" v-show="!isMobile">
+            <svg v-if="!isDark" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="5" />
+              <path d="M12 1v2M12 21v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1 12h2M21 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4" />
+            </svg>
+            <svg v-else xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+          </div>
+        </el-menu>
+      </div>
     </div>
 
     <!-- 路由内容 -->
@@ -87,7 +91,7 @@ import { ref, computed, onMounted, watch } from 'vue'
 import { useDark, useToggle, useBreakpoints } from '@vueuse/core'
 import { useRouter, useRoute } from 'vue-router'
 import { getTournament } from '@/api/tournament'
-import { House, User, List, DataLine, Edit, Trophy, Document } from '@element-plus/icons-vue'
+import { House, User, List, DataLine, Edit, Trophy, Back } from '@element-plus/icons-vue'
 import lang from '@/components/lang.vue'
 
 const props = defineProps({
@@ -213,6 +217,7 @@ onMounted(() => {
   font-size: 1.1rem;
 }
 
+
 .nav-container {
   position: sticky;
   top: 0;
@@ -220,12 +225,53 @@ onMounted(() => {
   background: var(--el-bg-color);
   box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
   max-width: 100%;
-  padding: 0 calc((100% - 1200px) / 2 + 1rem);
+  padding: 0;
 }
 
-.nav-container .el-menu {
+.nav-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  display: flex;
+  align-items: center;
+}
+
+.nav-menu {
+  flex: 1;
+  border-bottom: none !important;
+  background: transparent !important;
+  overflow: hidden; /* 防止溢出 */
+}
+
+.nav-container :deep(.el-menu--horizontal) {
   border-bottom: none;
+}
+
+/* 返回按钮美化 */
+.nav-back-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 12px;
+  cursor: pointer;
+  color: var(--el-text-color-regular);
   background: transparent;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  flex-shrink: 0;
+}
+
+.nav-back-btn:hover {
+  background-color: var(--el-fill-color-dark);
+  color: var(--el-color-primary);
+  transform: translateX(-3px);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.nav-back-btn .el-icon {
+  font-size: 20px;
 }
 
 .content-section {
@@ -257,31 +303,28 @@ onMounted(() => {
   font-size: 0.9rem;
 }
 
-.mobile-view .nav-container {
-  padding: 0 0.5rem;
+/* 移动端导航调整 */
+.mobile-view .nav-content {
+  padding: 0 4px;
+}
+
+.mobile-view .nav-menu {
   overflow-x: auto;
+  scrollbar-width: none; /* Hide scrollbar for cleaner look */
 }
 
-.mobile-view .nav-container .el-menu {
-  flex-wrap: nowrap;
-}
-
-.mobile-view .content-section {
-  padding: 0.75rem;
-}
-
-/* 移动端导航：只显示图标，选中项显示文字 */
-.mobile-view .nav-container {
-  padding: 0;
-  overflow-x: visible;
-}
-
-.mobile-view .nav-container .el-menu {
-  justify-content: center;
+.mobile-view .nav-menu::-webkit-scrollbar {
+  display: none;
 }
 
 .mobile-view .el-menu-item {
   padding: 0 12px;
+}
+
+.mobile-view .nav-back-btn {
+  width: 36px;
+  height: 36px;
+  margin-right: 4px;
 }
 
 /* 分隔占位 */
